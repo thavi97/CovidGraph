@@ -6,12 +6,22 @@ class Graph extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      items: [],
+      isLoaded: false,
       chartData:{}
     }
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.getChartData();
+    fetch('https://covid2019-api.herokuapp.com/v2/current')
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          isLoaded:true,
+          items: json,
+        })
+      });
   }
 
   getChartData(){
@@ -23,7 +33,6 @@ class Graph extends React.Component {
            borderColor: "rgba(220,220,220,1)",
            backgroundColor: "rgba(0,0,0,0)",
            lineTension: 0,
-           label: 'Bob',
            data: [65, 59, 80, 81, 56, 55, 40]
           },
           {fillColor: "rgba(151,187,205,0.2)",
@@ -40,29 +49,46 @@ class Graph extends React.Component {
   }
 
   render() {
-    return (
-      <div className="container">
-        <div className="my_chart">
-          <Line
-            data={this.state.chartData}
-            options={{
-              title:{
-                display:true,
-                text:'Largest Cities In Massachusetts',
-                fontSize:25
-              },
-              legend:{
-                display:true,
-                position:'right',
-                labels:{
-                  fontColor:'#000'
-                }
-              },
-            }}
-          />
+    var { isLoaded, items } = this.state;
+    console.log(items);
+    if(!isLoaded){
+      return <div>Loading...</div>
+    }
+    else{
+      return (
+        <div className="container">
+          <div>
+          <ul>
+            {items['data'].map(item => (
+              <li key={item}>
+                {item.location} | {item.confirmed}
+              </li>
+            ))}
+          </ul>
+          </div>
+          <div className="my_chart">
+            <Line
+              data={this.state.chartData}
+              options={{
+                title:{
+                  display:true,
+                  text:'Largest Cities In Massachusetts',
+                  fontSize:25
+                },
+                legend:{
+                  display:true,
+                  position:'right',
+                  labels:{
+                    fontColor:'#000'
+                  }
+                },
+              }}
+            />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+
   }
 }
 

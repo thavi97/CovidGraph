@@ -105571,15 +105571,27 @@ var Graph = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
+      items: [],
+      isLoaded: false,
       chartData: {}
     };
     return _this;
   }
 
   _createClass(Graph, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
       this.getChartData();
+      fetch('https://covid2019-api.herokuapp.com/v2/current').then(function (res) {
+        return res.json();
+      }).then(function (json) {
+        _this2.setState({
+          isLoaded: true,
+          items: json
+        });
+      });
     }
   }, {
     key: "getChartData",
@@ -105592,7 +105604,6 @@ var Graph = /*#__PURE__*/function (_React$Component) {
             borderColor: "rgba(220,220,220,1)",
             backgroundColor: "rgba(0,0,0,0)",
             lineTension: 0,
-            label: 'Bob',
             data: [65, 59, 80, 81, 56, 55, 40]
           }, {
             fillColor: "rgba(151,187,205,0.2)",
@@ -105608,27 +105619,40 @@ var Graph = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "my_chart"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__["Line"], {
-        data: this.state.chartData,
-        options: {
-          title: {
-            display: true,
-            text: 'Largest Cities In Massachusetts',
-            fontSize: 25
-          },
-          legend: {
-            display: true,
-            position: 'right',
-            labels: {
-              fontColor: '#000'
+      var _this$state = this.state,
+          isLoaded = _this$state.isLoaded,
+          items = _this$state.items;
+      console.log(items);
+
+      if (!isLoaded) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading...");
+      } else {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "container"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, items['data'].map(function (item) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            key: item
+          }, item.location, " | ", item.confirmed);
+        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "my_chart"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__["Line"], {
+          data: this.state.chartData,
+          options: {
+            title: {
+              display: true,
+              text: 'Largest Cities In Massachusetts',
+              fontSize: 25
+            },
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                fontColor: '#000'
+              }
             }
           }
-        }
-      })));
+        })));
+      }
     }
   }]);
 
