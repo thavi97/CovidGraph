@@ -12,9 +12,10 @@ class Graph extends React.Component {
     }
   }
 
-  componentDidMount(){
+  async componentDidMount(){
     this.getChartData();
-    fetch('https://covid2019-api.herokuapp.com/v2/current')
+    this.getJson();
+    fetch('https://covid2019-api.herokuapp.com/v2/timeseries/confirmed')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -22,6 +23,21 @@ class Graph extends React.Component {
           items: json,
         })
       });
+  }
+
+  async getJson(){
+    const url = 'https://covid2019-api.herokuapp.com/v2/timeseries/confirmed';
+    const response = await fetch(url);
+    const data = await response.json();
+    var i;
+    var country = [];
+    for (i = 0; i < data['data'].length-1; i++) {
+      if(data['data'][i]['Country/Region'] == "France" && data['data'][i]['Province/State'] == ""){
+        country.splice(0, 0, data['data'][i]);
+      }
+
+    }
+    console.log(country);
   }
 
   getChartData(){
@@ -50,7 +66,6 @@ class Graph extends React.Component {
 
   render() {
     var { isLoaded, items } = this.state;
-    console.log(items);
     if(!isLoaded){
       return <div>Loading...</div>
     }
@@ -61,7 +76,8 @@ class Graph extends React.Component {
           <ul>
             {items['data'].map(item => (
               <li key={item}>
-                {item.location} | {item.confirmed}
+
+                {item['Country/Region']} | {item['Coordinates']['Lat']}
               </li>
             ))}
           </ul>
