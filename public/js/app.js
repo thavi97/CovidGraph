@@ -106340,60 +106340,37 @@ var Graph = /*#__PURE__*/function (_React$Component) {
 
   _createClass(Graph, [{
     key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getJson();
+    }
+  }, {
+    key: "getJson",
     value: function () {
-      var _componentDidMount = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var _this2 = this;
-
+      var _getJson = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var url, response, data, country, singleCountries, i, timeseriesValue, timeseriesDate;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                this.getChartData();
-                this.getJson();
-                fetch('https://covid2019-api.herokuapp.com/v2/timeseries/confirmed').then(function (res) {
-                  return res.json();
-                }).then(function (json) {
-                  _this2.setState({
-                    isLoaded: true,
-                    items: json
-                  });
-                });
-
-              case 3:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function componentDidMount() {
-        return _componentDidMount.apply(this, arguments);
-      }
-
-      return componentDidMount;
-    }()
-  }, {
-    key: "getJson",
-    value: function () {
-      var _getJson = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var url, response, data, i, country;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
                 url = 'https://covid2019-api.herokuapp.com/v2/timeseries/confirmed';
-                _context2.next = 3;
+                _context.next = 3;
                 return fetch(url);
 
               case 3:
-                response = _context2.sent;
-                _context2.next = 6;
+                response = _context.sent;
+                _context.next = 6;
                 return response.json();
 
               case 6:
-                data = _context2.sent;
+                data = _context.sent;
                 country = [];
+                singleCountries = [];
+
+                for (i = 0; i < data['data'].length - 1; i++) {
+                  if (data['data'][i]['Province/State'] == "") {
+                    singleCountries.splice(singleCountries.length, 0, data['data'][i]);
+                  }
+                }
 
                 for (i = 0; i < data['data'].length - 1; i++) {
                   if (data['data'][i]['Country/Region'] == "France" && data['data'][i]['Province/State'] == "") {
@@ -106401,14 +106378,46 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                   }
                 }
 
-                console.log(country);
+                this.setState({
+                  isLoaded: true,
+                  items: singleCountries
+                });
+                timeseriesValue = [];
+                timeseriesDate = [];
 
-              case 10:
+                for (i = country[0]['TimeSeries'].length - 1; i >= 0; i--) {
+                  timeseriesValue.splice(0, 0, country[0]['TimeSeries'][i]['value']);
+                  timeseriesDate.splice(0, 0, country[0]['TimeSeries'][i]['date']);
+                } //console.log(country);
+
+
+                this.setState({
+                  chartData: {
+                    labels: timeseriesDate,
+                    datasets: [{
+                      fillColor: "rgba(220,220,220,0.2)",
+                      borderColor: "rgba(220,220,220,1)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[0]['Country/Region'],
+                      data: timeseriesValue
+                    }, {
+                      fillColor: "rgba(151,187,205,0.2)",
+                      borderColor: "rgba(151,187,205,1)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: 'Bob2',
+                      data: [28, 48, 40, 19, 86, 27, 90]
+                    }]
+                  }
+                });
+
+              case 16:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2);
+        }, _callee, this);
       }));
 
       function getJson() {
@@ -106417,29 +106426,6 @@ var Graph = /*#__PURE__*/function (_React$Component) {
 
       return getJson;
     }()
-  }, {
-    key: "getChartData",
-    value: function getChartData() {
-      this.setState({
-        chartData: {
-          labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
-          datasets: [{
-            fillColor: "rgba(220,220,220,0.2)",
-            borderColor: "rgba(220,220,220,1)",
-            backgroundColor: "rgba(0,0,0,0)",
-            lineTension: 0,
-            data: [65, 59, 80, 81, 56, 55, 40]
-          }, {
-            fillColor: "rgba(151,187,205,0.2)",
-            borderColor: "rgba(151,187,205,1)",
-            backgroundColor: "rgba(0,0,0,0)",
-            lineTension: 0,
-            label: 'Bob2',
-            data: [28, 48, 40, 19, 86, 27, 90]
-          }]
-        }
-      });
-    }
   }, {
     key: "render",
     value: function render() {
@@ -106450,20 +106436,21 @@ var Graph = /*#__PURE__*/function (_React$Component) {
       if (!isLoaded) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, "Loading...");
       } else {
+        console.log(items);
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "container"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, items['data'].map(function (item) {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ol", null, items.map(function (item) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
             key: item
-          }, item['Country/Region'], " | ", item['Coordinates']['Lat']);
-        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          }, item['Country/Region']);
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "my_chart"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_3__["Line"], {
           data: this.state.chartData,
           options: {
             title: {
               display: true,
-              text: 'Largest Cities In Massachusetts',
+              text: 'Daily Statistics of Confirmed Covid19 Cases',
               fontSize: 25
             },
             legend: {

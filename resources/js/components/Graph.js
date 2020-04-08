@@ -12,44 +12,50 @@ class Graph extends React.Component {
     }
   }
 
-  async componentDidMount(){
-    this.getChartData();
+  componentDidMount(){
     this.getJson();
-    fetch('https://covid2019-api.herokuapp.com/v2/timeseries/confirmed')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          isLoaded:true,
-          items: json,
-        })
-      });
   }
 
   async getJson(){
     const url = 'https://covid2019-api.herokuapp.com/v2/timeseries/confirmed';
     const response = await fetch(url);
     const data = await response.json();
-    var i;
     var country = [];
-    for (i = 0; i < data['data'].length-1; i++) {
+    var singleCountries = [];
+    for(var i = 0; i < data['data'].length-1; i++){
+      if(data['data'][i]['Province/State'] == ""){
+        singleCountries.splice(singleCountries.length, 0, data['data'][i]);
+      }
+    }
+    for (var i = 0; i < data['data'].length-1; i++) {
       if(data['data'][i]['Country/Region'] == "France" && data['data'][i]['Province/State'] == ""){
         country.splice(0, 0, data['data'][i]);
       }
 
     }
-    console.log(country);
-  }
 
-  getChartData(){
+    this.setState({
+      isLoaded:true,
+      items: singleCountries,
+    });
+
+    var timeseriesValue = [];
+    var timeseriesDate= [];
+    for(var i=country[0]['TimeSeries'].length-1; i>=0; i--){
+      timeseriesValue.splice(0, 0, country[0]['TimeSeries'][i]['value']);
+      timeseriesDate.splice(0, 0, country[0]['TimeSeries'][i]['date']);
+    }
+    //console.log(country);
     this.setState({
       chartData:{
-        labels:['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
+        labels:timeseriesDate,
         datasets:[
           {fillColor: "rgba(220,220,220,0.2)",
            borderColor: "rgba(220,220,220,1)",
            backgroundColor: "rgba(0,0,0,0)",
            lineTension: 0,
-           data: [65, 59, 80, 81, 56, 55, 40]
+           label: country[0]['Country/Region'],
+           data: timeseriesValue
           },
           {fillColor: "rgba(151,187,205,0.2)",
            borderColor: "rgba(151,187,205,1)",
@@ -64,31 +70,30 @@ class Graph extends React.Component {
     });
   }
 
+
   render() {
     var { isLoaded, items } = this.state;
     if(!isLoaded){
       return <div>Loading...</div>
     }
     else{
+      console.log(items);
       return (
         <div className="container">
-          <div>
-          <ul>
-            {items['data'].map(item => (
-              <li key={item}>
-
-                {item['Country/Region']} | {item['Coordinates']['Lat']}
-              </li>
-            ))}
-          </ul>
-          </div>
+        <ol>
+          {items.map(item => (
+            <li key={item}>
+              {item['Country/Region']}
+            </li>
+          ))}
+        </ol>
           <div className="my_chart">
             <Line
               data={this.state.chartData}
               options={{
                 title:{
                   display:true,
-                  text:'Largest Cities In Massachusetts',
+                  text:'Daily Statistics of Confirmed Covid19 Cases',
                   fontSize:25
                 },
                 legend:{
