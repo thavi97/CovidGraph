@@ -106333,7 +106333,8 @@ var Graph = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       items: [],
       isLoaded: false,
-      chartData: {}
+      chartDataConfirmed: {},
+      chartDataDeaths: {}
     };
     return _this;
   }
@@ -106341,18 +106342,19 @@ var Graph = /*#__PURE__*/function (_React$Component) {
   _createClass(Graph, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.getJson();
+      this.getJsonConfirmed();
+      this.getJsonDeaths();
     }
   }, {
-    key: "getJson",
+    key: "getJsonDeaths",
     value: function () {
-      var _getJson = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var url, response, data, country, singleCountries, i, timeseriesValue, timeseriesDate;
+      var _getJsonDeaths = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var url, response, data, country, singleCountries, i, timeseriesCountryDeaths, u, timeseriesValue, timeseriesDate;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                url = 'https://covid2019-api.herokuapp.com/v2/timeseries/confirmed';
+                url = 'https://covid2019-api.herokuapp.com/v2/timeseries/deaths';
                 _context.next = 3;
                 return fetch(url);
 
@@ -106373,46 +106375,97 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                 }
 
                 for (i = 0; i < data['data'].length - 1; i++) {
-                  if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" || data['data'][i]['Country/Region'] == "Thailand" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
+                  if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" || data['data'][i]['Country/Region'] == "Belgiun" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
                     country.splice(0, 0, data['data'][i]);
                   }
                 }
 
-                console.log(country);
                 this.setState({
                   isLoaded: true,
                   items: singleCountries
                 });
-                timeseriesValue = [];
-                timeseriesDate = [];
+                timeseriesCountryDeaths = [];
 
-                for (i = 0; i < country[0]['TimeSeries'].length - 1; i++) {
-                  timeseriesValue.splice(singleCountries.length, 0, country[0]['TimeSeries'][i]['value']);
-                  timeseriesDate.splice(singleCountries.length, 0, country[0]['TimeSeries'][i]['date']);
+                for (u = 0; u < country.length - 1; u++) {
+                  timeseriesValue = [];
+                  timeseriesDate = [];
+
+                  for (i = 30; i < country[u]['TimeSeries'].length - 1; i++) {
+                    timeseriesValue.push(country[u]['TimeSeries'][i]['value']);
+                    timeseriesDate.push(country[u]['TimeSeries'][i]['date']);
+                  }
+
+                  timeseriesCountryDeaths.push(timeseriesValue);
                 }
 
                 this.setState({
-                  chartData: {
+                  chartDataDeaths: {
                     labels: timeseriesDate,
                     datasets: [{
-                      fillColor: "rgba(255,0,0,0.2)",
-                      borderColor: "rgba(255,0,0,1)",
+                      borderColor: "rgba(255,0,0,0.5)",
                       backgroundColor: "rgba(0,0,0,0)",
                       lineTension: 0,
                       label: country[0]['Country/Region'],
-                      data: timeseriesValue
+                      data: timeseriesCountryDeaths[0]
                     }, {
-                      fillColor: "rgba(151,187,205,0.2)",
-                      borderColor: "rgba(151,187,205,1)",
+                      borderColor: "rgba(0,255,0,0.5)",
                       backgroundColor: "rgba(0,0,0,0)",
                       lineTension: 0,
-                      label: 'Bob2',
-                      data: [28, 48, 40, 19, 86, 27, 90]
+                      label: country[1]['Country/Region'],
+                      data: timeseriesCountryDeaths[1]
+                    }, {
+                      borderColor: "rgba(0,0,255,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[2]['Country/Region'],
+                      data: timeseriesCountryDeaths[2]
+                    }, {
+                      borderColor: "rgba(255,255,0,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[3]['Country/Region'],
+                      data: timeseriesCountryDeaths[3]
+                    }, {
+                      borderColor: "rgba(255,0,255,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[4]['Country/Region'],
+                      data: timeseriesCountryDeaths[4]
+                    }, {
+                      borderColor: "rgba(0,255,255,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[5]['Country/Region'],
+                      data: timeseriesCountryDeaths[5]
+                    }, {
+                      borderColor: "rgba(255,0,85,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[6]['Country/Region'],
+                      data: timeseriesCountryDeaths[6]
+                    }, {
+                      borderColor: "rgba(102,255,127,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[7]['Country/Region'],
+                      data: timeseriesCountryDeaths[7]
+                    }, {
+                      borderColor: "rgba(0,0,0,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[8]['Country/Region'],
+                      data: timeseriesCountryDeaths[8]
+                    }, {
+                      borderColor: "rgba(217,179,255,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[9]['Country/Region'],
+                      data: timeseriesCountryDeaths[9]
                     }]
                   }
                 });
 
-              case 17:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -106420,11 +106473,145 @@ var Graph = /*#__PURE__*/function (_React$Component) {
         }, _callee, this);
       }));
 
-      function getJson() {
-        return _getJson.apply(this, arguments);
+      function getJsonDeaths() {
+        return _getJsonDeaths.apply(this, arguments);
       }
 
-      return getJson;
+      return getJsonDeaths;
+    }()
+  }, {
+    key: "getJsonConfirmed",
+    value: function () {
+      var _getJsonConfirmed = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var url, response, data, country, singleCountries, i, timeseriesCountryConfirmed, u, timeseriesValue, timeseriesDate;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                url = 'https://covid2019-api.herokuapp.com/v2/timeseries/confirmed';
+                _context2.next = 3;
+                return fetch(url);
+
+              case 3:
+                response = _context2.sent;
+                _context2.next = 6;
+                return response.json();
+
+              case 6:
+                data = _context2.sent;
+                country = [];
+                singleCountries = [];
+
+                for (i = 0; i < data['data'].length - 1; i++) {
+                  if (data['data'][i]['Province/State'] == "") {
+                    singleCountries.splice(singleCountries.length, 0, data['data'][i]);
+                  }
+                }
+
+                for (i = 0; i < data['data'].length - 1; i++) {
+                  if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" || data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
+                    country.splice(0, 0, data['data'][i]);
+                  }
+                }
+
+                this.setState({
+                  isLoaded: true,
+                  items: singleCountries
+                });
+                timeseriesCountryConfirmed = [];
+
+                for (u = 0; u < country.length - 1; u++) {
+                  timeseriesValue = [];
+                  timeseriesDate = [];
+
+                  for (i = 30; i < country[u]['TimeSeries'].length - 1; i++) {
+                    timeseriesValue.push(country[u]['TimeSeries'][i]['value']);
+                    timeseriesDate.push(country[u]['TimeSeries'][i]['date']);
+                  }
+
+                  timeseriesCountryConfirmed.push(timeseriesValue);
+                }
+
+                this.setState({
+                  chartDataConfirmed: {
+                    labels: timeseriesDate,
+                    datasets: [{
+                      borderColor: "rgba(255,0,0,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[0]['Country/Region'],
+                      data: timeseriesCountryConfirmed[0]
+                    }, {
+                      borderColor: "rgba(0,255,0,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[1]['Country/Region'],
+                      data: timeseriesCountryConfirmed[1]
+                    }, {
+                      borderColor: "rgba(0,0,255,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[2]['Country/Region'],
+                      data: timeseriesCountryConfirmed[2]
+                    }, {
+                      borderColor: "rgba(255,255,0,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[3]['Country/Region'],
+                      data: timeseriesCountryConfirmed[3]
+                    }, {
+                      borderColor: "rgba(255,0,255,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[4]['Country/Region'],
+                      data: timeseriesCountryConfirmed[4]
+                    }, {
+                      borderColor: "rgba(0,255,255,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[5]['Country/Region'],
+                      data: timeseriesCountryConfirmed[5]
+                    }, {
+                      borderColor: "rgba(255,0,85,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[6]['Country/Region'],
+                      data: timeseriesCountryConfirmed[6]
+                    }, {
+                      borderColor: "rgba(102,255,127,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[7]['Country/Region'],
+                      data: timeseriesCountryConfirmed[7]
+                    }, {
+                      borderColor: "rgba(0,0,0,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[8]['Country/Region'],
+                      data: timeseriesCountryConfirmed[8]
+                    }, {
+                      borderColor: "rgba(217,179,255,0.5)",
+                      backgroundColor: "rgba(0,0,0,0)",
+                      lineTension: 0,
+                      label: country[9]['Country/Region'],
+                      data: timeseriesCountryConfirmed[9]
+                    }]
+                  }
+                });
+
+              case 15:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getJsonConfirmed() {
+        return _getJsonConfirmed.apply(this, arguments);
+      }
+
+      return getJsonConfirmed;
     }()
   }, {
     key: "render",
@@ -106438,17 +106625,10 @@ var Graph = /*#__PURE__*/function (_React$Component) {
       } else {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "container"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
-          id: "countries"
-        }, items.map(function (item) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
-            key: item,
-            value: "{item['Country/Region']}"
-          }, item['Country/Region']);
-        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "my_chart"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_3__["Line"], {
-          data: this.state.chartData,
+          data: this.state.chartDataConfirmed,
           options: {
             title: {
               display: true,
@@ -106463,7 +106643,33 @@ var Graph = /*#__PURE__*/function (_React$Component) {
               }
             }
           }
-        })));
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          "class": "text-center"
+        }, "x-axis: Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          "class": "text-center"
+        }, "y-axis: Total Number of Confirmed Cases"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          className: "my_chart"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_3__["Line"], {
+          data: this.state.chartDataDeaths,
+          options: {
+            title: {
+              display: true,
+              text: 'Daily Statistics of Covid19 Deaths',
+              fontSize: 25
+            },
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                fontColor: '#000'
+              }
+            }
+          }
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          "class": "text-center"
+        }, "x-axis: Date"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          "class": "text-center"
+        }, "y-axis: Total Number of Deaths"));
       }
     }
   }]);
