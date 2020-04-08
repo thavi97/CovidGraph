@@ -30,7 +30,7 @@ class Graph extends React.Component {
         singleCountries.splice(singleCountries.length, 0, data['data'][i]);
       }
     }
-    for (var i = 0; i < data['data'].length-1; i++) {
+    for (var i = 0; i < data['data'].length; i++) {
       if((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" ||
         data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" ||
         data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" ||
@@ -50,7 +50,7 @@ class Graph extends React.Component {
     for(var u=0; u<country.length-1; u++){
       var timeseriesValue = [];
       var timeseriesDate = [];
-      for(var i=30; i<country[u]['TimeSeries'].length-1; i++){
+      for(var i=30; i<country[u]['TimeSeries'].length; i++){
         timeseriesValue.push(country[u]['TimeSeries'][i]['value']);
         timeseriesDate.push(country[u]['TimeSeries'][i]['date']);
       }
@@ -147,7 +147,7 @@ class Graph extends React.Component {
         singleCountries.splice(singleCountries.length, 0, data['data'][i]);
       }
     }
-    for (var i = 0; i < data['data'].length-1; i++) {
+    for (var i = 0; i < data['data'].length; i++) {
       if((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" ||
         data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" ||
         data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" ||
@@ -164,10 +164,10 @@ class Graph extends React.Component {
     });
 
     var timeseriesCountryConfirmed = [];
-    for(var u=0; u<country.length-1; u++){
+    for(var u=0; u<country.length; u++){
       var timeseriesValue = [];
       var timeseriesDate = [];
-      for(var i=30; i<country[u]['TimeSeries'].length-1; i++){
+      for(var i=30; i<country[u]['TimeSeries'].length; i++){
         timeseriesValue.push(country[u]['TimeSeries'][i]['value']);
         timeseriesDate.push(country[u]['TimeSeries'][i]['date']);
       }

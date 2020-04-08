@@ -114702,7 +114702,7 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                   }
                 }
 
-                for (i = 0; i < data['data'].length - 1; i++) {
+                for (i = 0; i < data['data'].length; i++) {
                   if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" || data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
                     country.splice(0, 0, data['data'][i]);
                   }
@@ -114718,7 +114718,7 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                   timeseriesValue = [];
                   timeseriesDate = [];
 
-                  for (i = 30; i < country[u]['TimeSeries'].length - 1; i++) {
+                  for (i = 30; i < country[u]['TimeSeries'].length; i++) {
                     timeseriesValue.push(country[u]['TimeSeries'][i]['value']);
                     timeseriesDate.push(country[u]['TimeSeries'][i]['date']);
                   }
@@ -114836,7 +114836,7 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                   }
                 }
 
-                for (i = 0; i < data['data'].length - 1; i++) {
+                for (i = 0; i < data['data'].length; i++) {
                   if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" || data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
                     country.splice(0, 0, data['data'][i]);
                   }
@@ -114848,11 +114848,11 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                 });
                 timeseriesCountryConfirmed = [];
 
-                for (u = 0; u < country.length - 1; u++) {
+                for (u = 0; u < country.length; u++) {
                   timeseriesValue = [];
                   timeseriesDate = [];
 
-                  for (i = 30; i < country[u]['TimeSeries'].length - 1; i++) {
+                  for (i = 30; i < country[u]['TimeSeries'].length; i++) {
                     timeseriesValue.push(country[u]['TimeSeries'][i]['value']);
                     timeseriesDate.push(country[u]['TimeSeries'][i]['date']);
                   }
