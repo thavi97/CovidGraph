@@ -28,30 +28,35 @@ class Graph extends React.Component {
       }
     }
     for (var i = 0; i < data['data'].length-1; i++) {
-      if(data['data'][i]['Country/Region'] == "France" && data['data'][i]['Province/State'] == ""){
+      if((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" ||
+        data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" ||
+        data['data'][i]['Country/Region'] == "Thailand" || data['data'][i]['Country/Region'] == "Spain" ||
+        data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" ||
+        data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran")
+        && data['data'][i]['Province/State'] == ""){
         country.splice(0, 0, data['data'][i]);
       }
-
     }
+
+    console.log(country);
 
     this.setState({
       isLoaded:true,
       items: singleCountries,
     });
-
     var timeseriesValue = [];
     var timeseriesDate= [];
-    for(var i=country[0]['TimeSeries'].length-1; i>=0; i--){
-      timeseriesValue.splice(0, 0, country[0]['TimeSeries'][i]['value']);
-      timeseriesDate.splice(0, 0, country[0]['TimeSeries'][i]['date']);
+    for(var i=0; i<country[0]['TimeSeries'].length-1; i++){
+      timeseriesValue.splice(singleCountries.length, 0, country[0]['TimeSeries'][i]['value']);
+      timeseriesDate.splice(singleCountries.length, 0, country[0]['TimeSeries'][i]['date']);
     }
-    //console.log(country);
+
     this.setState({
       chartData:{
         labels:timeseriesDate,
         datasets:[
-          {fillColor: "rgba(220,220,220,0.2)",
-           borderColor: "rgba(220,220,220,1)",
+          {fillColor: "rgba(255,0,0,0.2)",
+           borderColor: "rgba(255,0,0,1)",
            backgroundColor: "rgba(0,0,0,0)",
            lineTension: 0,
            label: country[0]['Country/Region'],
@@ -70,23 +75,23 @@ class Graph extends React.Component {
     });
   }
 
-
   render() {
     var { isLoaded, items } = this.state;
     if(!isLoaded){
       return <div>Loading...</div>
     }
     else{
-      console.log(items);
       return (
         <div className="container">
-        <ol>
-          {items.map(item => (
-            <li key={item}>
-              {item['Country/Region']}
-            </li>
-          ))}
-        </ol>
+          <form>
+            <select id="countries">
+              {items.map(item => (
+                <option key={item} value="{item['Country/Region']}">
+                  {item['Country/Region']}
+                </option>
+              ))}
+            </select>
+          </form>
           <div className="my_chart">
             <Line
               data={this.state.chartData}
@@ -109,7 +114,6 @@ class Graph extends React.Component {
         </div>
       );
     }
-
   }
 }
 

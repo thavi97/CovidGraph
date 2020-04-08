@@ -106373,11 +106373,12 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                 }
 
                 for (i = 0; i < data['data'].length - 1; i++) {
-                  if (data['data'][i]['Country/Region'] == "France" && data['data'][i]['Province/State'] == "") {
+                  if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" || data['data'][i]['Country/Region'] == "Thailand" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
                     country.splice(0, 0, data['data'][i]);
                   }
                 }
 
+                console.log(country);
                 this.setState({
                   isLoaded: true,
                   items: singleCountries
@@ -106385,18 +106386,17 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                 timeseriesValue = [];
                 timeseriesDate = [];
 
-                for (i = country[0]['TimeSeries'].length - 1; i >= 0; i--) {
-                  timeseriesValue.splice(0, 0, country[0]['TimeSeries'][i]['value']);
-                  timeseriesDate.splice(0, 0, country[0]['TimeSeries'][i]['date']);
-                } //console.log(country);
-
+                for (i = 0; i < country[0]['TimeSeries'].length - 1; i++) {
+                  timeseriesValue.splice(singleCountries.length, 0, country[0]['TimeSeries'][i]['value']);
+                  timeseriesDate.splice(singleCountries.length, 0, country[0]['TimeSeries'][i]['date']);
+                }
 
                 this.setState({
                   chartData: {
                     labels: timeseriesDate,
                     datasets: [{
-                      fillColor: "rgba(220,220,220,0.2)",
-                      borderColor: "rgba(220,220,220,1)",
+                      fillColor: "rgba(255,0,0,0.2)",
+                      borderColor: "rgba(255,0,0,1)",
                       backgroundColor: "rgba(0,0,0,0)",
                       lineTension: 0,
                       label: country[0]['Country/Region'],
@@ -106412,7 +106412,7 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                   }
                 });
 
-              case 16:
+              case 17:
               case "end":
                 return _context.stop();
             }
@@ -106436,14 +106436,16 @@ var Graph = /*#__PURE__*/function (_React$Component) {
       if (!isLoaded) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, "Loading...");
       } else {
-        console.log(items);
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "container"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ol", null, items.map(function (item) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", {
-            key: item
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+          id: "countries"
+        }, items.map(function (item) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+            key: item,
+            value: "{item['Country/Region']}"
           }, item['Country/Region']);
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "my_chart"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_3__["Line"], {
           data: this.state.chartData,
