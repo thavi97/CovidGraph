@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Bar, Line, Pie, Scatter } from 'react-chartjs-2';
+import { BoxLoading } from 'react-loadingg';
 
 class Graph extends React.Component {
   constructor(props){
@@ -32,7 +33,7 @@ class Graph extends React.Component {
     for (var i = 0; i < data['data'].length-1; i++) {
       if((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" ||
         data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" ||
-        data['data'][i]['Country/Region'] == "Belgiun" || data['data'][i]['Country/Region'] == "Spain" ||
+        data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" ||
         data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" ||
         data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran")
         && data['data'][i]['Province/State'] == ""){
@@ -255,7 +256,7 @@ class Graph extends React.Component {
   render() {
     var { isLoaded, items } = this.state;
     if(!isLoaded){
-      return <div>Loading...</div>
+      return <BoxLoading />
     }
     else{
       return (
@@ -276,11 +277,23 @@ class Graph extends React.Component {
                     fontColor:'#000'
                   }
                 },
+                scales: {
+                  yAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Total Number of Confirmed Cases'
+                    }
+                  }],
+                  xAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Date'
+                    }
+                  }]
+                }
               }}
             />
           </div>
-          <div class="text-center">x-axis: Date</div>
-          <div class="text-center">y-axis: Total Number of Confirmed Cases</div>
           <br /><br /><br />
           <div className="my_chart">
             <Line
@@ -298,11 +311,23 @@ class Graph extends React.Component {
                     fontColor:'#000'
                   }
                 },
+                scales: {
+                  yAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Total Number of Deaths'
+                    }
+                  }],
+                  xAxes: [{
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Date'
+                    }
+                  }]
+                }
               }}
             />
           </div>
-          <div class="text-center">x-axis: Date</div>
-          <div class="text-center">y-axis: Total Number of Deaths</div>
         </div>
       );
     }

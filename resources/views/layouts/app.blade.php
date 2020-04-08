@@ -25,6 +25,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
       <div class="container">
         <a class="navbar-brand" href="{{ url('/graph') }}">Home</a>
+        <a href="https://github.com/thavi97/CovidGraph">Github Link</a>
       </div>
     </nav>
     <main class="py-4">
