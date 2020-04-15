@@ -148,7 +148,7 @@ class Graph extends React.Component {
       }
     }
     for (var i = 0; i < data['data'].length; i++) {
-      if((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" ||
+      if((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Ireland" ||
         data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" ||
         data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" ||
         data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" ||
