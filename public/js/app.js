@@ -114703,7 +114703,7 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                 }
 
                 for (i = 0; i < data['data'].length; i++) {
-                  if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" || data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
+                  if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "Ireland" || data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
                     country.splice(0, 0, data['data'][i]);
                   }
                 }
@@ -114837,7 +114837,7 @@ var Graph = /*#__PURE__*/function (_React$Component) {
                 }
 
                 for (i = 0; i < data['data'].length; i++) {
-                  if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "US" || data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
+                  if ((data['data'][i]['Country/Region'] == "France" || data['data'][i]['Country/Region'] == "Italy" || data['data'][i]['Country/Region'] == "United Kingdom" || data['data'][i]['Country/Region'] == "Ireland" || data['data'][i]['Country/Region'] == "Belgium" || data['data'][i]['Country/Region'] == "Spain" || data['data'][i]['Country/Region'] == "Germany" || data['data'][i]['Country/Region'] == "Japan" || data['data'][i]['Country/Region'] == "Korea, South" || data['data'][i]['Country/Region'] == "Iran") && data['data'][i]['Province/State'] == "") {
                     country.splice(0, 0, data['data'][i]);
                   }
                 }
